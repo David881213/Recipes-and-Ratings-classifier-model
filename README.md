@@ -1,2 +1,3 @@
 # Recipes-and-Ratings-classifier-model
-This is project 5 of DSC80
+
+By Pin-Hsuan Lai (pilai@ucsd.edu), Pin-Yeh Lai (p2lai@ucsd.edu)
