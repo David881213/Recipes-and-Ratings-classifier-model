@@ -76,7 +76,7 @@ As expected, the test results mostly predicted True, indicating that the most re
 Overall, train data had accuracy 84.26%, test data of our results had an accuracy of approximately 83.08%, precision of 84.79%, recall of 96.68%, and F-1 score of 90.35%. This suggests that there are more False Positives than False Negatives in the results. The 83.08% accuracy is only about 1.07% higher than the worst possible accuracy, indicating that this is not a good model. We need to include more useful features and perform more feature engineering to create a good final model.
 
 **Baseline model confusion matrix:**
-
+![Baseline model confusion matrix](assets/Baseline model confusion matrix.png)
 <iframe src="assets/Baseline Confusion Matrix.html" width=800 height=600 frameBorder=0></iframe>
 
 ## Final Model
@@ -135,7 +135,7 @@ Overall, our final model achieved an accuracy of 88.01% on the training data, an
 
 **Final model confusion matrix:**
 
-<iframe src="assets/Final Confusion Matrix.html" width=800 height=600 frameBorder=0></iframe>
+![Final model confusion matrix](assets/Final Confusion Matrix.png)
 
 ## Fairness Analysis
 To test the fairness of our model, we chose to analyze the accuracy of two groups based on the user ID: odd and even. First, we binarized the `user_id` into odd and even categories. We calculated that the accuracy for the odd user IDs is approximately 85.16%, and for the even user IDs is approximately 86.11%. 
