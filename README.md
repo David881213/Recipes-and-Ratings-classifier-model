@@ -31,19 +31,19 @@ In our baseline model, we decided to use columns `calories`, `sugar` and `protei
 
 **Graph 1. The mean of `calories` before and after 2013:**
 
-<iframe src="assets/Mean Calories Before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/Mean Calories Before and After 2013.html" width=650 height=550 frameBorder=0></iframe>
 
 We can see obviously there is a gap between mean of calories before and after 2013.
 
 **Graph 2. The mean of `sugar` before and after 2013:**
 
-<iframe src="assets/Mean Sugar Before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/Mean Sugar Before and After 2013.html" width=650 height=550 frameBorder=0></iframe>
 
 We can see obviously there is a gap between mean of sugar before and after 2013.
 
 **Graph 3. The mean of `protein` before and after 2013:**
 
-<iframe src="assets/Mean Protein Before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/Mean Protein Before and After 2013.html" width=650 height=550 frameBorder=0></iframe>
 
 We can see obviously there is a gap between mean of protein before and after 2013.
 
@@ -86,7 +86,7 @@ We believe `ave_rating` is a valuable feature for training our model because whe
 
 **Graph 4. The mean of `ave_rating` before and after 2013:**
 
-<iframe src="assets/Mean Ave Rating before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/Mean Ave Rating before and After 2013.html" width=650 height=550 frameBorder=0></iframe>
 
 We can see there is a gap between mean of ave_rating before and after 2013.
 
@@ -94,7 +94,7 @@ Similarly, we believe `submitted_year` is a useful feature because when we plott
 
 **Graph 5. The of number of reviews before and after 2013 on recipe submitted in each year:**
 
-<iframe src="assets/Number of reviews before and after 2013 on recipe submitted in each year.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/Number of reviews before and after 2013 on recipe submitted in each year.html" width=650 height=550 frameBorder=0></iframe>
 
 We can see obviously, there is a huge different between distribution of number of reviews before and after 2013 on recipe submitted in each year.
 
@@ -141,7 +141,7 @@ To test the fairness of our model, we chose to analyze the accuracy of two group
 
 **Accuracy rate of odd & even user ID:**
 
-<iframe src="assets/Accuracy rate of odd & even user ID.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/Accuracy rate of odd & even user ID.html" width=650 height=550 frameBorder=0></iframe>
 
 **Computing parity measures:**
 
