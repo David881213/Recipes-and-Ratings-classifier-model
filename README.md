@@ -20,7 +20,7 @@ The metric we have chosen to evaluate our model is accuracy. This decision is ba
 
 In our data, True represents reviews from 2013 and earlier, while False represents reviews from after 2013.
 
-### The distribution of reviews that done before 2013 and after 2013:
+**The distribution of reviews that done before 2013 and after 2013:**
 
 | index   |   Before 2013 |
 |:--------|--------------:|
@@ -29,19 +29,19 @@ In our data, True represents reviews from 2013 and earlier, while False represen
 
 In our baseline model, we decided to use columns `calories`, `sugar` and `protein` as our independent variables to train our model, since we can observe in below three graph that the mean of all three columns across two time period are different.(These difference may or may not are significant).
 
-### Graph 1. The mean of `calories` before and after 2013:
+**Graph 1. The mean of `calories` before and after 2013:**
 
 <iframe src="assets/Mean Calories Before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
 
 We can see obviously there is a gap between mean of calories before and after 2013.
 
-### Graph 2. The mean of `sugar` before and after 2013:
+**Graph 2. The mean of `sugar` before and after 2013:**
 
 <iframe src="assets/Mean Sugar Before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
 
 We can see obviously there is a gap between mean of sugar before and after 2013.
 
-### Graph 3. The mean of `protein` before and after 2013:
+**Graph 3. The mean of `protein` before and after 2013:**
 
 <iframe src="assets/Mean Protein Before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -66,7 +66,7 @@ Pipeline(steps=[('Tree',
 
 As expected, the test results mostly predicted True, indicating that the most reviews were from 2013 and earlier. This is because in the original data, 82.01% of the reviews were True. Therefore, the chances of predicting True were already high. If we predicted all the results as True, we would have an accuracy of 82.01%, which is our worst possible accuracy. 
 
-The distribution of reviews that done before 2013 and after 2013:
+**The distribution of reviews that done before 2013 and after 2013:**
 
 | index   |   Before 2013 |
 |:--------|--------------:|
@@ -75,7 +75,7 @@ The distribution of reviews that done before 2013 and after 2013:
 
 Overall, train data had accuracy 84.26%, test data of our results had an accuracy of approximately 83.08%, precision of 84.79%, recall of 96.68%, and F-1 score of 90.35%. This suggests that there are more False Positives than False Negatives in the results. The 83.08% accuracy is only about 1.07% higher than the worst possible accuracy, indicating that this is not a good model. We need to include more useful features and perform more feature engineering to create a good final model.
 
-### Baseline model confusion matrix:
+**### Baseline model confusion matrix:**
 
 <iframe src="assets/Baseline Confusion Matrix.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -86,7 +86,7 @@ In our final model, we added two features: `ave_rating` and `submitted_year`.
 
 We believe `ave_rating` is a valuable feature for training our model because when we plotted the mean of `ave_rating` before and after 2013, we found that there was a difference between the two means. This suggests that people's rating habits and preferences may have changed before and after 2013, making `ave_rating` a valid indicator of the time period. 
 
-### Graph 4. The mean of `ave_rating` before and after 2013:
+**Graph 4. The mean of `ave_rating` before and after 2013:**
 
 <iframe src="assets/Mean Ave Rating before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -94,7 +94,7 @@ We can see there is a gap between mean of ave_rating before and after 2013.
 
 Similarly, we believe `submitted_year` is a useful feature because when we plotted the distribution of the number of reviews submitted before and after 2013 for each year, we found that the distributions were different. This indicates that people's rating habits and positivity may have changed before and after 2013, making `submitted_year` a good indicator of the time period.
 
-### Graph 5. The of number of reviews before and after 2013 on recipe submitted in each year:
+**Graph 5. The of number of reviews before and after 2013 on recipe submitted in each year:**
 
 <iframe src="assets/Number of reviews before and after 2013 on recipe submitted in each year.html" width=800 height=600 frameBorder=0></iframe>
 
@@ -108,7 +108,7 @@ We can see obviously, there is a huge different between distribution of number o
 
 - Column `sugar`and `protein` are numerical columns. From the following data we find out there are outliers in both columns, so we decide to input them to the model by QuantileTransformer to reduce the impact of outliers.
 
- Mean and maximum of `sugar` and `protein`:
+ **Mean and maximum of `sugar` and `protein`:**
 
 | index   |    mean |   max |
 |:--------|---------|------:|
@@ -134,40 +134,45 @@ Pipeline(steps=[('preprocessor',
 
 Overall, our final model achieved an accuracy of 88.01% on the training data, and the test data resulted in an accuracy of approximately 85.82%, precision of 86.95%, recall of 97.3%, and F-1 score of 91.83%. The test accuracy of final model is 2.74% higher than baseline model, meaning it has a better performance of predicting unseen data, also, it has accuracy more higher than the worst possible accuracy of 82.01%. Therefore, we believe our final model outperforms the baseline model and can better utilize the recipe data to determine whether reviews are from before or after 2013.
 
-#### Final model confusion matrix:
+**Final model confusion matrix:**
 
 <iframe src="assets/Final Confusion Matrix.html" width=800 height=600 frameBorder=0></iframe>
 
 ## Fairness Analysis
-To test the fairness of our model, we chose to analyze the accuracy of two groups based on the user ID: odd and even. First, we binarized the `user_id` into odd and even categories. We calculated that the accuracy for the odd user IDs is approximately 85.16%, and for the even user IDs is approximately 86.11%. These two groups show similar accuracy rates, prompting us to conduct a permutation test for further validation.
+To test the fairness of our model, we chose to analyze the accuracy of two groups based on the user ID: odd and even. First, we binarized the `user_id` into odd and even categories. We calculated that the accuracy for the odd user IDs is approximately 85.16%, and for the even user IDs is approximately 86.11%. 
 
-#### Accuracy rate of odd & even user ID:
+**Accuracy rate of odd & even user ID:**
 
 <iframe src="assets/Accuracy rate of odd & even user ID.html" width=800 height=600 frameBorder=0></iframe>
 
-Accuracy of odd and even user id:
+**Computing parity measures:**
+
+- *C*: Our random forest classifier (1 if the review is before 2013, 0 if the review is after 2013).
+- *Y*: Whether the review is truly before 2013 (1) or after 2013 (0).
+- *A*: Whether user id is odd or even number (1 if odd, 0 if even).
+
+**Accuracy of *C* in each group:**
 
 | is_odd   |   accuracy |
 |:---------|-----------:|
 | even     |   0.861092 |
 | odd      |   0.851559 |
 
+It seems that the two groups have very close accuracy scores. using permutation test to verify, we have our:
 
-
-
-
-Our null hypothesis states that the classifier's accuracy is the same for both odd and even user IDs, and any differences are due to chance. The alternative hypothesis, on the other hand, posits that the classifier's accuracy differs between odd and even user IDs, and the differences are not solely due to chance.
-
-**Null hypothesiss**: *H<sub>0</sub>*: the classifier's accuracy is the same for both odd and even user IDs, and any differences are due to chance.
+**Null hypothesis**: *H<sub>0</sub>*: the classifier's accuracy is the same for both odd and even user IDs, and any differences are due to chance.
 
 **Alternative hypothesis**: *H<sub>a</sub>*: the classifier's accuracy differs between odd and even user IDs, and the differences are not solely due to chance.
 
-We chose the absolute difference of accuracy as the test statistic and set a significance level of 0.05. After performing 1000 permutations, we obtained a p-value of 0.207, which is greater than the significance level of 0.05. Therefore, we fail to reject the null hypothesis, indicating that we have sufficient evidence to support the accuracy parity between odd and even user IDs are the same. Consequently, our random forest classifier is likely to achieve accuracy parity.
+**Test statistic**: Absolute difference in accuracy.
 
+**Significance level**: 0.05.
 
+**Absolute difference in accuracy:**
 
+<iframe src="assets/Absolute difference in accuracy.html" width=800 height=600 frameBorder=0></iframe>
 
-
+After performing 1000 permutations, we obtained a p-value of 0.207, which is greater than the significance level of 0.05. Therefore, we **fail to reject** the null hypothesis, indicating that we have sufficient evidence to support the accuracy parity between odd and even user IDs are the same. Consequently, *C* is likely to achieve accuracy parity.
 
 
 
