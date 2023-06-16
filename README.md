@@ -168,7 +168,7 @@ It seems that the two groups have very close accuracy scores. using permutation 
 
 **Absolute difference in accuracy:**
 
-<iframe src="assets/Absolute difference in accuracy.html" width=700 height=550 frameBorder=0></iframe>
+<iframe src="assets/Absolute difference in accuracy.html" width=650 height=550 frameBorder=0></iframe>
 
 After performing 1000 permutations, we obtained a p-value of 0.207, which is greater than the significance level of 0.05. Therefore, we **fail to reject** the null hypothesis, indicating that we have sufficient evidence to support the accuracy parity between odd and even user IDs are the same. Consequently, *C* is likely to achieve accuracy parity.
 
