@@ -27,15 +27,7 @@ In our data, True represents reviews from 2013 and earlier, while False represen
 | True    |      0.820127 |
 | False   |      0.179873 |
 
-In our baseline model, we decided to use columns calories, sugr and protein as our independent variables to train our model, since we can observe in below three graph that the mean of all three columns across two time period are different.(These differents may or may not are significant).
-
-- Column `calories` is a numerical column, we decide to input it to the model without change.
-
-- Column `protein` is a numerical column, we decide to input it to the model without change.
-
-- Column `protein` is a numerical column, we decide to input it to the model without change.
-
-All three columns we select in baseline model are numerical, which are quantitative.
+In our baseline model, we decided to use columns `calories`, `sugar` and `protein` as our independent variables to train our model, since we can observe in below three graph that the mean of all three columns across two time period are different.(These difference may or may not are significant).
 
 ### Graph 1. The mean of `calories` before and after 2013:
 
@@ -55,10 +47,17 @@ We can see obviously there is a gap between mean of sugar before and after 2013.
 
 We can see obviously there is a gap between mean of protein before and after 2013.
 
+- Column `calories` is a numerical column, we decide to input it to the model without change.
+
+- Column `protein` is a numerical column, we decide to input it to the model without change.
+
+- Column `protein` is a numerical column, we decide to input it to the model without change.
+
+All three columns we select in baseline model are numerical, which are quantitative.
 
 In the baseline model, we did not make any modifications to these columns and directly used them for training the model.
 
-Our baseline model with DecisionTreeClassifier had the best hyperparameters: {'Tree__max_depth': 20,'Tree__min_samples_leaf': 17, 'Tree__min_samples_split': 16}. 
+Our baseline model with DecisionTreeClassifier had the best hyper-parameters: {'Tree__max_depth': 20,'Tree__min_samples_leaf': 17, 'Tree__min_samples_split': 16}. 
 ```
 Pipeline(steps=[('Tree',
                  DecisionTreeClassifier(max_depth=20, min_samples_leaf=17,
@@ -83,29 +82,44 @@ Overall, train data had accuracy 84.26%, test data of our results had an accurac
 
 ## Final Model
 
-## Fairness Analysis
-To test the fairness of our model, we chose to analyze the accuracy of two groups based on the user ID: odd and even. First, we binarized the `user_id` into odd and even categories. We calculated that the accuracy for the odd user IDs is approximately 85.16%, and for the even user IDs is approximately 86.11%. These two groups show similar accuracy rates, prompting us to conduct a permutation test for further validation.
+In our final model, we added two features: `ave_rating` and `submitted_year`.
 
-Accuracy of odd and even user id:
+We believe `ave_rating` is a valuable feature for training our model because when we plotted the mean of `ave_rating` before and after 2013, we found that there was a difference between the two means. This suggests that people's rating habits and preferences may have changed before and after 2013, making `ave_rating` a valid indicator of the time period. 
 
-| is_odd   |   accuracy |
-|:---------|-----------:|
-| even     |   0.861092 |
-| odd      |   0.851559 |
+### Graph 4. The mean of `ave_rating` before and after 2013:
 
-Our null hypothesis states that the classifier's accuracy is the same for both odd and even user IDs, and any differences are due to chance. The alternative hypothesis, on the other hand, posits that the classifier's accuracy differs between odd and even user IDs, and the differences are not solely due to chance.
+<iframe src="assets/Mean Ave Rating before and After 2013.html" width=800 height=600 frameBorder=0></iframe>
 
-**Null hypothesiss**: *H<sub>0</sub>*: the classifier's accuracy is the same for both odd and even user IDs, and any differences are due to chance.
+We can see there is a gap between mean of ave_rating before and after 2013.
 
-**Alternative hypothesis**: *H<sub>a</sub>*: the classifier's accuracy differs between odd and even user IDs, and the differences are not solely due to chance.
+Similarly, we believe `submitted_year` is a useful feature because when we plotted the distribution of the number of reviews submitted before and after 2013 for each year, we found that the distributions were different. This indicates that people's rating habits and positivity may have changed before and after 2013, making `submitted_year` a good indicator of the time period.
 
-We chose the absolute difference of accuracy as the test statistic and set a significance level of 0.05. After performing 1000 permutations, we obtained a p-value of 0.103, which is greater than the significance level of 0.05. Therefore, we fail to reject the null hypothesis, indicating that we have sufficient evidence to support the accuracy parity between odd and even user IDs are the same. Consequently, our random forest classifier is likely to achieve accuracy parity.
+### Graph 5. The of number of reviews before and after 2013 on recipe submitted in each year:
 
+<iframe src="assets/Number of reviews before and after 2013 on recipe submitted in each year.html" width=800 height=600 frameBorder=0></iframe>
 
+We can see obviously, there is a huge different between distribution of number of reviews before and after 2013 on recipe submitted in each year.
 
+- Column `ave_rating` is a numerical column, we decide to input it to the model without change.
 
+- Column `submitted_year` is a categorical column, specifically a nominal column, so we decide to input it to the model using OneHotEncoder transform.
 
+- Column `calories` is a numerical column, we decide to input it to the model without change.
 
+- Column `sugar`and `protein` are numerical columns. From the following data we find out there are outliers in both columns, so we decide to input them to the model by QuantileTransformer to reduce the impact of outliers.
+
+ Mean and maximum of `sugar` and `protein`:
+
+| index   |    mean |   max |
+|:--------|---------|------:|
+| sugar   | 63.4709 | 30260 |
+| protein | 33.152  |  4356 |
+
+We will have 4 quantitative columns and a nominal column in our final model.
+
+We chose to use the RandomForestClassifier as our final model and obtained the best hyper-parameters: {'Forest__max_depth': 22, 'Forest__n_estimators': 34} using Grid Cross Validation. We selected the RandomForestClassifier because it combines multiple decision trees and outputs the average of all trees' predictions. We believe this ensemble approach will provide more accurate results compared to a single decision tree.
+
+```
 Pipeline(steps=[('preprocessor',
                  ColumnTransformer(remainder='passthrough',
                                    transformers=[('quantile_sugar',
@@ -116,17 +130,44 @@ Pipeline(steps=[('preprocessor',
                                                   ['submitted_year'])])),
                 ('Forest',
                  RandomForestClassifier(max_depth=22, n_estimators=34))])
+```
 
-0.8801478079187747
+Overall, our final model achieved an accuracy of 88.01% on the training data, and the test data resulted in an accuracy of approximately 85.82%, precision of 86.95%, recall of 97.3%, and F-1 score of 91.83%. The test accuracy of final model is 2.74% higher than baseline model, meaning it has a better performance of predicting unseen data, also, it has accuracy more higher than the worst possible accuracy of 82.01%. Therefore, we believe our final model outperforms the baseline model and can better utilize the recipe data to determine whether reviews are from before or after 2013.
 
-accuracy:   0.8582010947455666
-precision:  0.8694571073352673
-recall:     0.9729752519077532
-F-1:        0.9183080657355457
+#### Final model confusion matrix:
+
+<iframe src="assets/Final Confusion Matrix.html" width=800 height=600 frameBorder=0></iframe>
+
+## Fairness Analysis
+To test the fairness of our model, we chose to analyze the accuracy of two groups based on the user ID: odd and even. First, we binarized the `user_id` into odd and even categories. We calculated that the accuracy for the odd user IDs is approximately 85.16%, and for the even user IDs is approximately 86.11%. These two groups show similar accuracy rates, prompting us to conduct a permutation test for further validation.
+
+#### Accuracy rate of odd & even user ID:
+
+<iframe src="assets/Accuracy rate of odd & even user ID.html" width=800 height=600 frameBorder=0></iframe>
+
+Accuracy of odd and even user id:
+
+| is_odd   |   accuracy |
+|:---------|-----------:|
+| even     |   0.861092 |
+| odd      |   0.851559 |
 
 
 
-83.08
+
+
+Our null hypothesis states that the classifier's accuracy is the same for both odd and even user IDs, and any differences are due to chance. The alternative hypothesis, on the other hand, posits that the classifier's accuracy differs between odd and even user IDs, and the differences are not solely due to chance.
+
+**Null hypothesiss**: *H<sub>0</sub>*: the classifier's accuracy is the same for both odd and even user IDs, and any differences are due to chance.
+
+**Alternative hypothesis**: *H<sub>a</sub>*: the classifier's accuracy differs between odd and even user IDs, and the differences are not solely due to chance.
+
+We chose the absolute difference of accuracy as the test statistic and set a significance level of 0.05. After performing 1000 permutations, we obtained a p-value of 0.207, which is greater than the significance level of 0.05. Therefore, we fail to reject the null hypothesis, indicating that we have sufficient evidence to support the accuracy parity between odd and even user IDs are the same. Consequently, our random forest classifier is likely to achieve accuracy parity.
+
+
+
+
+
 
 
 
