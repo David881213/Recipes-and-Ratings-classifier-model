@@ -77,7 +77,6 @@ Overall, train data had accuracy 84.26%, test data of our results had an accurac
 
 **Baseline model confusion matrix:**
 ![Baseline model confusion matrix](assets/Baseline model confusion matrix.png)
-<iframe src="assets/Baseline Confusion Matrix.html" width=800 height=600 frameBorder=0></iframe>
 
 ## Final Model
 
